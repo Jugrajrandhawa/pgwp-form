@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PGWP Application Form - JSR Immigration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f4f6f9; }
+        .app-header { background: #1F4E79; color: #fff; padding: 1rem 0; }
+        .app-header h1 { font-size: 1.4rem; margin: 0; }
+        .app-header small { opacity: 0.8; }
+        .step-indicator { display: flex; gap: 4px; margin-bottom: 1.5rem; }
+        .step-dot {
+            flex: 1; height: 6px; border-radius: 3px;
+            background: #dee2e6; transition: background 0.3s;
+        }
+        .step-dot.active { background: #1F4E79; }
+        .step-dot.done { background: #198754; }
+        .wizard-step { display: none; }
+        .wizard-step.active { display: block; }
+        .form-label { font-weight: 500; font-size: 0.9rem; }
+        .section-title {
+            background: #D6E4F0; padding: 0.5rem 1rem;
+            border-left: 4px solid #1F4E79; margin: 1.5rem 0 1rem;
+            font-weight: 600; font-size: 1rem;
+        }
+        .btn-nav { min-width: 120px; }
+        .card { border: none; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+        .signature-box {
+            border: 2px dashed #1F4E79; padding: 2rem; text-align: center;
+            background: #f8f9fa; border-radius: 8px;
+        }
+        .signature-preview {
+            font-family: 'Brush Script MT', 'Segoe Script', cursive;
+            font-size: 2rem; color: #1F4E79; min-height: 50px;
+            margin-top: 0.5rem;
+        }
+        .submit-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: flex; align-items: center;
+            justify-content: center; z-index: 9999;
+        }
+        .submit-overlay .card { max-width: 500px; width: 90%; }
+    </style>
+</head>
+<body>
+    <div class="app-header">
+        <div class="container">
+            <h1>PGWP Application Form</h1>
+            <small>Post-Graduation Work Permit - JSR Immigration Ltd.</small>
+        </div>
+    </div>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="fw-bold" id="stepTitle">Step 1 of 9</span>
+                            <span class="text-muted ms-2" id="stepName">Application & Personal</span>
+                        </div>
+                    </div>
+
+                    <div class="step-indicator" id="stepIndicator">
+                        <div class="step-dot active"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                        <div class="step-dot"></div>
+                    </div>
+
+                    <form id="mainForm" onsubmit="return false;">
+
+                        <!-- ===== STEP 1: Application & Personal ===== -->
+                        <div class="wizard-step active" data-step="1" data-label="Application & Personal">
+                            <div class="section-title">Application Type</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ApplicationType">What are you applying for? <span class="text-danger">*</span></label>
+                                    <select class="form-select form-select-sm" id="ApplicationType" name="ApplicationType" required>
+                                        <option value="">-- Select --</option>
+                                        <option value="Apply for work permit first time or new employer">Apply for work permit first time or new employer</option>
+                                        <option value="Extend work permit same employer">Extend work permit same employer</option>
+                                        <option value="Restore status">Restore status</option>
+                                        <option value="TRP">TRP</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ServiceLanguage">Preferred service language</label>
+                                    <select class="form-select form-select-sm" id="ServiceLanguage" name="ServiceLanguage">
+                                        <option value="">-- Select --</option>
+                                        <option value="English">English</option>
+                                        <option value="French">French</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="section-title">Personal Details</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="UCIClientID">UCI / Client ID</label>
+                                    <input type="text" class="form-control form-control-sm" id="UCIClientID" name="UCIClientID" placeholder="XXXX-XXXX">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="FamilyName">Family name (as on passport) <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="FamilyName" name="FamilyName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="GivenName">Given name(s) (as on passport) <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="GivenName" name="GivenName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="AliasFamilyName">Other family name used before</label>
+                                    <input type="text" class="form-control form-control-sm" id="AliasFamilyName" name="AliasFamilyName" placeholder="Leave blank if none">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="AliasGivenName">Other given name used before</label>
+                                    <input type="text" class="form-control form-control-sm" id="AliasGivenName" name="AliasGivenName" placeholder="Leave blank if none">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Sex">Sex <span class="text-danger">*</span></label>
+                                    <select class="form-select form-select-sm" id="Sex" name="Sex" required>
+                                        <option value="">-- Select --</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Unknown">Unknown</option>
+                                        <option value="Unspecified">Unspecified</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DOBYear">Birth year (YYYY) <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="DOBYear" name="DOBYear" placeholder="e.g. 1999" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DOBMonth">Birth month (MM) <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="DOBMonth" name="DOBMonth" placeholder="e.g. 11" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DOBDay">Birth day (DD) <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="DOBDay" name="DOBDay" placeholder="e.g. 17" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PlaceBirthCity">City/Town of birth <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="PlaceBirthCity" name="PlaceBirthCity" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PlaceBirthCountry">Country of birth</label>
+                                    <input type="text" class="form-control form-control-sm" id="PlaceBirthCountry" name="PlaceBirthCountry" placeholder="e.g. India">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Citizenship">Country of citizenship <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="Citizenship" name="Citizenship" placeholder="e.g. India" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== STEP 2: Residence & Marital ===== -->
+                        <div class="wizard-step" data-step="2" data-label="Residence & Marital">
+                            <div class="section-title">Country of Residence</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CurrentCORCountry">Current country of residence</label>
+                                    <input type="text" class="form-control form-control-sm" id="CurrentCORCountry" name="CurrentCORCountry" placeholder="Canada">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CurrentCORStatus">Immigration status</label>
+                                    <select class="form-select form-select-sm" id="CurrentCORStatus" name="CurrentCORStatus">
+                                        <option value="">-- Select --</option>
+                                        <option value="Citizen">Citizen</option>
+                                        <option value="Permanent Resident">Permanent Resident</option>
+                                        <option value="Visitor">Visitor</option>
+                                        <option value="Worker">Worker</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Protected Person">Protected Person</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CurrentCORFrom">Current residence - From</label>
+                                    <input type="date" class="form-control form-control-sm" id="CurrentCORFrom" name="CurrentCORFrom">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CurrentCORTo">Current residence - To</label>
+                                    <input type="date" class="form-control form-control-sm" id="CurrentCORTo" name="CurrentCORTo">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevCORCountry">Previous country of residence</label>
+                                    <input type="text" class="form-control form-control-sm" id="PrevCORCountry" name="PrevCORCountry" placeholder="Leave blank if same">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevCORStatus">Status in previous country</label>
+                                    <select class="form-select form-select-sm" id="PrevCORStatus" name="PrevCORStatus">
+                                        <option value="">-- Select --</option>
+                                        <option value="Citizen">Citizen</option>
+                                        <option value="Permanent Resident">Permanent Resident</option>
+                                        <option value="Visitor">Visitor</option>
+                                        <option value="Worker">Worker</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Protected Person">Protected Person</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevCORFrom">Previous residence - From</label>
+                                    <input type="date" class="form-control form-control-sm" id="PrevCORFrom" name="PrevCORFrom">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevCORTo">Previous residence - To</label>
+                                    <input type="date" class="form-control form-control-sm" id="PrevCORTo" name="PrevCORTo">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Marital Status</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MaritalStatus">Current marital status <span class="text-danger">*</span></label>
+                                    <select class="form-select form-select-sm" id="MaritalStatus" name="MaritalStatus" required>
+                                        <option value="">-- Select --</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Common-law">Common-law</option>
+                                        <option value="Divorced">Divorced</option>
+                                        <option value="Separated">Separated</option>
+                                        <option value="Widowed">Widowed</option>
+                                        <option value="Annulled">Annulled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="spouseNameFields" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="SpouseFamilyName">Spouse/partner family name</label>
+                                    <input type="text" class="form-control form-control-sm" id="SpouseFamilyName" name="SpouseFamilyName">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="SpouseGivenName">Spouse/partner given name</label>
+                                    <input type="text" class="form-control form-control-sm" id="SpouseGivenName" name="SpouseGivenName">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DateOfMarriage">Date of marriage</label>
+                                    <input type="date" class="form-control form-control-sm" id="DateOfMarriage" name="DateOfMarriage">
+                                </div>
+                            </div>
+                            <div class="row" id="formerSpouseFields" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="FormerSpouseFamilyName">Former spouse family name</label>
+                                    <input type="text" class="form-control form-control-sm" id="FormerSpouseFamilyName" name="FormerSpouseFamilyName">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="FormerSpouseGivenName">Former spouse given name</label>
+                                    <input type="text" class="form-control form-control-sm" id="FormerSpouseGivenName" name="FormerSpouseGivenName">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DateOfMarriageFormer">Date of marriage</label>
+                                    <input type="date" class="form-control form-control-sm" id="DateOfMarriageFormer" name="DateOfMarriage">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DateOfSeparation">Date of separation / death</label>
+                                    <input type="date" class="form-control form-control-sm" id="DateOfSeparation" name="DateOfSeparation">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Languages</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="NativeLang">Native language / Mother tongue</label>
+                                    <input type="text" class="form-control form-control-sm" id="NativeLang" name="NativeLang" placeholder="e.g. Punjabi">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CommunicateLang">Can you communicate in English/French?</label>
+                                    <select class="form-select form-select-sm" id="CommunicateLang" name="CommunicateLang">
+                                        <option value="">-- Select --</option>
+                                        <option value="English">English</option>
+                                        <option value="French">French</option>
+                                        <option value="Both">Both</option>
+                                        <option value="Neither">Neither</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== STEP 3: Passport & Address ===== -->
+                        <div class="wizard-step" data-step="3" data-label="Passport & Address">
+                            <div class="section-title">Passport Details</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PassportNum">Passport number <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="PassportNum" name="PassportNum" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PassportCountry">Country of issue</label>
+                                    <input type="text" class="form-control form-control-sm" id="PassportCountry" name="PassportCountry" placeholder="e.g. India">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PassportIssueDate">Issue date</label>
+                                    <input type="date" class="form-control form-control-sm" id="PassportIssueDate" name="PassportIssueDate">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PassportExpiryDate">Expiry date</label>
+                                    <input type="date" class="form-control form-control-sm" id="PassportExpiryDate" name="PassportExpiryDate">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Mailing Address</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailPOBox">P.O. Box</label>
+                                    <input type="text" class="form-control form-control-sm" id="MailPOBox" name="MailPOBox" placeholder="Optional">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailAptUnit">Apartment / Unit #</label>
+                                    <input type="text" class="form-control form-control-sm" id="MailAptUnit" name="MailAptUnit" placeholder="Optional">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailStreetNum">Street number <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="MailStreetNum" name="MailStreetNum" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailStreetName">Street name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="MailStreetName" name="MailStreetName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailCity">City <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="MailCity" name="MailCity" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailCountry">Country</label>
+                                    <input type="text" class="form-control form-control-sm" id="MailCountry" name="MailCountry" placeholder="Canada">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailProvince">Province/State</label>
+                                    <input type="text" class="form-control form-control-sm" id="MailProvince" name="MailProvince" placeholder="e.g. ON">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MailPostalCode">Postal code</label>
+                                    <input type="text" class="form-control form-control-sm" id="MailPostalCode" name="MailPostalCode" placeholder="e.g. L5B 1M2">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Residential Address</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ResiSameAsMailing">Same as mailing address?</label>
+                                    <select class="form-select form-select-sm" id="ResiSameAsMailing" name="ResiSameAsMailing">
+                                        <option value="">-- Select --</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="resiFields" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ResiAptUnit">Apartment / Unit #</label>
+                                    <input type="text" class="form-control form-control-sm" id="ResiAptUnit" name="ResiAptUnit">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ResiStreetNum">Street number</label>
+                                    <input type="text" class="form-control form-control-sm" id="ResiStreetNum" name="ResiStreetNum">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ResiStreetName">Street name</label>
+                                    <input type="text" class="form-control form-control-sm" id="ResiStreetName" name="ResiStreetName">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ResiCity">City</label>
+                                    <input type="text" class="form-control form-control-sm" id="ResiCity" name="ResiCity">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ResiCountry">Country</label>
+                                    <input type="text" class="form-control form-control-sm" id="ResiCountry" name="ResiCountry" placeholder="Canada">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== STEP 4: Contact & Entry ===== -->
+                        <div class="wizard-step" data-step="4" data-label="Contact & Entry">
+                            <div class="section-title">Phone & Email</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PhoneType">Phone type</label>
+                                    <select class="form-select form-select-sm" id="PhoneType" name="PhoneType">
+                                        <option value="">-- Select --</option>
+                                        <option value="Residence">Residence</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Cellular">Cellular</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PhoneAreaCode">Area code</label>
+                                    <input type="text" class="form-control form-control-sm" id="PhoneAreaCode" name="PhoneAreaCode" placeholder="e.g. 647">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PhoneFirst3">First 3 digits</label>
+                                    <input type="text" class="form-control form-control-sm" id="PhoneFirst3" name="PhoneFirst3" placeholder="e.g. 555">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PhoneLast4">Last 4 digits</label>
+                                    <input type="text" class="form-control form-control-sm" id="PhoneLast4" name="PhoneLast4" placeholder="e.g. 1234">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Email">Email address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control form-control-sm" id="Email" name="Email" required>
+                                </div>
+                            </div>
+
+                            <div class="section-title">Entry into Canada</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="OrigEntryDate">Date of original entry into Canada</label>
+                                    <input type="date" class="form-control form-control-sm" id="OrigEntryDate" name="OrigEntryDate">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="OrigEntryPlace">Place of original entry</label>
+                                    <input type="text" class="form-control form-control-sm" id="OrigEntryPlace" name="OrigEntryPlace" placeholder="e.g. Toronto Pearson Airport">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PurposeOfVisit">Purpose of original visit</label>
+                                    <select class="form-select form-select-sm" id="PurposeOfVisit" name="PurposeOfVisit">
+                                        <option value="">-- Select --</option>
+                                        <option value="Study">Study</option>
+                                        <option value="Work">Work</option>
+                                        <option value="Visit">Visit</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DateLastEntry">Date of most recent entry</label>
+                                    <input type="date" class="form-control form-control-sm" id="DateLastEntry" name="DateLastEntry">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="RecentEntryPlace">Place of most recent entry</label>
+                                    <input type="text" class="form-control form-control-sm" id="RecentEntryPlace" name="RecentEntryPlace" placeholder="e.g. Toronto Pearson Airport">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CurrentDocNumber">Current document number (study/work permit) <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="CurrentDocNumber" name="CurrentDocNumber" placeholder="e.g. F315622034" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== STEP 5: Work & Education ===== -->
+                        <div class="wizard-step" data-step="5" data-label="Work & Education">
+                            <div class="section-title">Details of Intended Work (PGWP)</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="WorkPermitType">Type of work permit</label>
+                                    <select class="form-select form-select-sm" id="WorkPermitType" name="WorkPermitType">
+                                        <option value="">-- Select --</option>
+                                        <option value="Post Graduation Work Permit" selected>Post Graduation Work Permit</option>
+                                        <option value="Open work permit (PGWP)">Open work permit (PGWP)</option>
+                                        <option value="Employer-specific">Employer-specific</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="EmployerName">Employer name</label>
+                                    <input type="text" class="form-control form-control-sm" id="EmployerName" name="EmployerName" placeholder="Blank for PGWP">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="EmployerAddr">Employer address</label>
+                                    <input type="text" class="form-control form-control-sm" id="EmployerAddr" name="EmployerAddr" placeholder="Blank for PGWP">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="WorkLocation">Work location</label>
+                                    <input type="text" class="form-control form-control-sm" id="WorkLocation" name="WorkLocation" placeholder="Blank for PGWP">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="JobTitle">Job title / Occupation</label>
+                                    <input type="text" class="form-control form-control-sm" id="JobTitle" name="JobTitle" placeholder="Optional for PGWP">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="JobDesc">Brief work duties</label>
+                                    <input type="text" class="form-control form-control-sm" id="JobDesc" name="JobDesc" placeholder="Optional for PGWP">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="LMONumber">LMIA/LMO number</label>
+                                    <input type="text" class="form-control form-control-sm" id="LMONumber" name="LMONumber" placeholder="N/A for PGWP (C43)">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Education (Most Recent)</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="EduFromYear">Start year</label>
+                                    <input type="text" class="form-control form-control-sm" id="EduFromYear" name="EduFromYear" placeholder="e.g. 2023">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="EduFromMonth">Start month</label>
+                                    <input type="text" class="form-control form-control-sm" id="EduFromMonth" name="EduFromMonth" placeholder="e.g. 09">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="EduToYear">End year</label>
+                                    <input type="text" class="form-control form-control-sm" id="EduToYear" name="EduToYear" placeholder="e.g. 2025">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="EduToMonth">End month</label>
+                                    <input type="text" class="form-control form-control-sm" id="EduToMonth" name="EduToMonth" placeholder="e.g. 12">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="FieldOfStudy">Program name / Field of study <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="FieldOfStudy" name="FieldOfStudy" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="SchoolName">School / Institution <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" id="SchoolName" name="SchoolName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="SchoolCity">School city</label>
+                                    <input type="text" class="form-control form-control-sm" id="SchoolCity" name="SchoolCity" placeholder="e.g. Mississauga">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="SchoolProvince">School province</label>
+                                    <input type="text" class="form-control form-control-sm" id="SchoolProvince" name="SchoolProvince" placeholder="e.g. ON">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="DLINumber">DLI Number</label>
+                                    <input type="text" class="form-control form-control-sm" id="DLINumber" name="DLINumber" placeholder="e.g. O19385946782">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ProgramDuration">Program duration</label>
+                                    <select class="form-select form-select-sm" id="ProgramDuration" name="ProgramDuration">
+                                        <option value="">-- Select --</option>
+                                        <option value="1 year">1 year</option>
+                                        <option value="2 years">2 years</option>
+                                        <option value="3 years">3 years</option>
+                                        <option value="4 years">4 years</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="ProgramType">Program credential type</label>
+                                    <select class="form-select form-select-sm" id="ProgramType" name="ProgramType">
+                                        <option value="">-- Select --</option>
+                                        <option value="Ontario College Diploma">Ontario College Diploma</option>
+                                        <option value="Ontario College Advanced Diploma">Ontario College Advanced Diploma</option>
+                                        <option value="Bachelor Degree">Bachelor Degree</option>
+                                        <option value="Post-Graduate Certificate">Post-Graduate Certificate</option>
+                                        <option value="Master Degree">Master Degree</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CampusName">Campus name</label>
+                                    <input type="text" class="form-control form-control-sm" id="CampusName" name="CampusName" placeholder="e.g. Hazel McCallion Campus">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== STEP 6: Employment ===== -->
+                        <div class="wizard-step" data-step="6" data-label="Employment History">
+                            <div class="section-title">Employment Record 1</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1FromYear">Start year</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1FromYear" name="Emp1FromYear" placeholder="YYYY">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1FromMonth">Start month</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1FromMonth" name="Emp1FromMonth" placeholder="MM">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1ToYear">End year</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1ToYear" name="Emp1ToYear" placeholder="YYYY or blank">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1ToMonth">End month</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1ToMonth" name="Emp1ToMonth" placeholder="MM">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1Occupation">Occupation</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1Occupation" name="Emp1Occupation">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1Employer">Employer name</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1Employer" name="Emp1Employer">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1City">City</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1City" name="Emp1City">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1Country">Country</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1Country" name="Emp1Country">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp1Province">Province/State</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp1Province" name="Emp1Province">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Employment Record 2</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2FromYear">Start year</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2FromYear" name="Emp2FromYear" placeholder="YYYY">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2FromMonth">Start month</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2FromMonth" name="Emp2FromMonth" placeholder="MM">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2ToYear">End year</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2ToYear" name="Emp2ToYear" placeholder="YYYY or blank">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2ToMonth">End month</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2ToMonth" name="Emp2ToMonth" placeholder="MM">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2Occupation">Occupation</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2Occupation" name="Emp2Occupation">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2Employer">Employer name</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2Employer" name="Emp2Employer">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2City">City</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2City" name="Emp2City">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2Country">Country</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2Country" name="Emp2Country">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp2Province">Province/State</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp2Province" name="Emp2Province">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Employment Record 3</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3FromYear">Start year</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3FromYear" name="Emp3FromYear" placeholder="YYYY">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3FromMonth">Start month</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3FromMonth" name="Emp3FromMonth" placeholder="MM">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3ToYear">End year</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3ToYear" name="Emp3ToYear" placeholder="YYYY or blank">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3ToMonth">End month</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3ToMonth" name="Emp3ToMonth" placeholder="MM">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3Occupation">Occupation</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3Occupation" name="Emp3Occupation">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3Employer">Employer name</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3Employer" name="Emp3Employer">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3City">City</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3City" name="Emp3City">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3Country">Country</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3Country" name="Emp3Country">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Emp3Province">Province/State</label>
+                                    <input type="text" class="form-control form-control-sm" id="Emp3Province" name="Emp3Province">
+                                </div>
+                            </div>
+                            <p class="text-muted small">Leave blank if no employment history. Most PGWP applicants skip this.</p>
+                        </div>
+
+                        <!-- ===== STEP 7: Background & IELTS ===== -->
+                        <div class="wizard-step" data-step="7" data-label="Background & IELTS">
+                            <div class="section-title">Background Questions</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="HealthCondition">Any health condition affecting health/safety?</label>
+                                    <select class="form-select form-select-sm" id="HealthCondition" name="HealthCondition">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="HealthContact">Close contact with TB or serious illness?</label>
+                                    <select class="form-select form-select-sm" id="HealthContact" name="HealthContact">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="medicalDetailsRow" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MedicalDetails">Health details (if yes above)</label>
+                                    <input type="text" class="form-control form-control-sm" id="MedicalDetails" name="MedicalDetails">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevAppliedCanada">Previously applied to enter/remain in Canada?</label>
+                                    <select class="form-select form-select-sm" id="PrevAppliedCanada" name="PrevAppliedCanada">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevRefused">Ever refused visa/permit or denied entry?</label>
+                                    <select class="form-select form-select-sm" id="PrevRefused" name="PrevRefused">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="refusedDetailsRow" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="RefusedDetails">Refusal details (if yes)</label>
+                                    <input type="text" class="form-control form-control-sm" id="RefusedDetails" name="RefusedDetails">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevRemoval">Ever ordered to leave Canada or any country?</label>
+                                    <select class="form-select form-select-sm" id="PrevRemoval" name="PrevRemoval">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Criminal">Committed or convicted of criminal offence?</label>
+                                    <select class="form-select form-select-sm" id="Criminal" name="Criminal">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="removalDetailsRow" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PrevRemovalDetails">Removal details (explain)</label>
+                                    <input type="text" class="form-control form-control-sm" id="PrevRemovalDetails" name="PrevRemovalDetails">
+                                </div>
+                            </div>
+                            <div class="row" id="criminalDetailsRow" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="CriminalDetails">Criminal details (explain)</label>
+                                    <input type="text" class="form-control form-control-sm" id="CriminalDetails" name="CriminalDetails">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Military">Served in military, militia, or civil defence?</label>
+                                    <select class="form-select form-select-sm" id="Military" name="Military">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="GovPosition">Held any government position?</label>
+                                    <select class="form-select form-select-sm" id="GovPosition" name="GovPosition">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="militaryDetailsRow" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="MilitaryDetails">Military details (if yes)</label>
+                                    <input type="text" class="form-control form-control-sm" id="MilitaryDetails" name="MilitaryDetails">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="Illtreatment">Witnessed/participated in ill-treatment?</label>
+                                    <select class="form-select form-select-sm" id="Illtreatment" name="Illtreatment">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="illtreatmentDetailsRow" style="display:none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IlltreatmentDetails">Ill-treatment details (explain)</label>
+                                    <input type="text" class="form-control form-control-sm" id="IlltreatmentDetails" name="IlltreatmentDetails">
+                                </div>
+                            </div>
+
+                            <div class="section-title">Language Test</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSTestType">Test type</label>
+                                    <select class="form-select form-select-sm" id="IELTSTestType" name="IELTSTestType">
+                                        <option value="">-- Select --</option>
+                                        <option value="IELTS">IELTS</option>
+                                        <option value="CELPIP">CELPIP</option>
+                                        <option value="PTE">PTE</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSTRFNumber">Test certificate / TRF number</label>
+                                    <input type="text" class="form-control form-control-sm" id="IELTSTRFNumber" name="IELTSTRFNumber" placeholder="e.g. 25CA528246H067G">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSTestDate">Test date</label>
+                                    <input type="date" class="form-control form-control-sm" id="IELTSTestDate" name="IELTSTestDate">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSListening">Listening score</label>
+                                    <input type="text" class="form-control form-control-sm" id="IELTSListening" name="IELTSListening" placeholder="e.g. 5.5">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSReading">Reading score</label>
+                                    <input type="text" class="form-control form-control-sm" id="IELTSReading" name="IELTSReading" placeholder="e.g. 4.0">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSWriting">Writing score</label>
+                                    <input type="text" class="form-control form-control-sm" id="IELTSWriting" name="IELTSWriting" placeholder="e.g. 5.5">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSSpeaking">Speaking score</label>
+                                    <input type="text" class="form-control form-control-sm" id="IELTSSpeaking" name="IELTSSpeaking" placeholder="e.g. 5.5">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="IELTSOverall">Overall band score</label>
+                                    <input type="text" class="form-control form-control-sm" id="IELTSOverall" name="IELTSOverall" placeholder="e.g. 5.0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== STEP 8: Submission Details ===== -->
+                        <div class="wizard-step" data-step="8" data-label="Submission Details">
+                            <div class="section-title">Submission Letter Details</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="StudyPermitDocNum">Study permit document number</label>
+                                    <input type="text" class="form-control form-control-sm" id="StudyPermitDocNum" name="StudyPermitDocNum" placeholder="e.g. F315622034">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="StudyPermitExpiry">Study permit expiry date</label>
+                                    <input type="date" class="form-control form-control-sm" id="StudyPermitExpiry" name="StudyPermitExpiry">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PGWPDuration">Requested PGWP duration</label>
+                                    <select class="form-select form-select-sm" id="PGWPDuration" name="PGWPDuration">
+                                        <option value="">-- Select --</option>
+                                        <option value="one (1) year">one (1) year</option>
+                                        <option value="two (2) years">two (2) years</option>
+                                        <option value="three (3) years">three (3) years</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="PaymentAmount">Application fee amount</label>
+                                    <input type="text" class="form-control form-control-sm" id="PaymentAmount" name="PaymentAmount" placeholder="$255">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="SubmissionDate">Date of submission</label>
+                                    <input type="date" class="form-control form-control-sm" id="SubmissionDate" name="SubmissionDate">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== STEP 9: Signature & Confirmation ===== -->
+                        <div class="wizard-step" data-step="9" data-label="Signature & Confirmation">
+                            <div class="section-title">Client Declaration & Signature</div>
+
+                            <div class="alert alert-info">
+                                <strong>Important:</strong> By typing your full legal name below and checking the confirmation box,
+                                you are digitally signing this application and confirming that all information provided is true and complete.
+                            </div>
+
+                            <div class="signature-box mb-4">
+                                <label class="form-label fw-bold" for="ClientSignatureName">Type your full legal name as signature <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg text-center" id="ClientSignatureName" name="ClientSignatureName"
+                                       placeholder="e.g. Harpreet Singh" style="max-width: 400px; margin: 0.5rem auto;" required>
+                                <div class="signature-preview" id="signaturePreview"></div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="SignatureConfirmed" name="SignatureConfirmed" required>
+                                    <label class="form-check-label" for="SignatureConfirmed">
+                                        <strong>I confirm</strong> that all the information I have provided in this application is true, complete, and accurate to the best of my knowledge.
+                                        I understand that providing false or misleading information may result in the refusal of my application.
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Signature Date & Time</label>
+                                    <input type="text" class="form-control form-control-sm" id="SignatureTimestamp" name="SignatureTimestamp" readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label text-muted">Your IP Address</label>
+                                    <input type="text" class="form-control form-control-sm" id="ClientIP" name="ClientIP" readonly placeholder="Detecting...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== NAVIGATION BUTTONS ===== -->
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-outline-secondary btn-nav" id="btnPrev" style="visibility:hidden;">Previous</button>
+                            <button type="button" class="btn btn-primary btn-nav" id="btnNext">Next</button>
+                            <button type="button" class="btn btn-success btn-nav" id="btnSubmit" style="display:none;" disabled>Submit Application</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success overlay (hidden by default) -->
+    <div id="successOverlay" class="submit-overlay" style="display:none;">
+        <div class="card p-5 text-center">
+            <div style="font-size: 5rem; color: #198754;">&#10004;</div>
+            <h2 class="mt-3 mb-3">Thank You!</h2>
+            <p class="text-muted fs-5">
+                Your application data has been submitted successfully.<br>
+                Your representative will process the documents and contact you.
+            </p>
+            <hr class="my-4">
+            <p class="text-muted small">You may close this window.</p>
+        </div>
+    </div>
+
+    <!-- Error overlay (hidden by default) -->
+    <div id="errorOverlay" class="submit-overlay" style="display:none;">
+        <div class="card p-5 text-center">
+            <div style="font-size: 5rem; color: #dc3545;">&#10008;</div>
+            <h2 class="mt-3 mb-3">Submission Error</h2>
+            <p class="text-muted fs-5" id="errorMessage">
+                Something went wrong. Please try again or contact your representative.
+            </p>
+            <button class="btn btn-primary mt-3" onclick="document.getElementById('errorOverlay').style.display='none';">Try Again</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function() {
+        // ============================================================
+        // IMPORTANT: Replace this URL with your Google Apps Script URL
+        // ============================================================
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxfCXcAPDOzXx4JnQ32ZsPpLGVT_dzhkXeVgZdUZzZ3S0cpxbN_VcLWi8CqjoQ7G0q2bg/exec';
+
+        const steps = document.querySelectorAll('.wizard-step');
+        const dots = document.querySelectorAll('.step-dot');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const stepTitle = document.getElementById('stepTitle');
+        const stepName = document.getElementById('stepName');
+        let current = 0;
+
+        function showStep(idx) {
+            steps.forEach((s, i) => s.classList.toggle('active', i === idx));
+            dots.forEach((d, i) => {
+                d.classList.remove('active', 'done');
+                if (i < idx) d.classList.add('done');
+                else if (i === idx) d.classList.add('active');
+            });
+            btnPrev.style.visibility = idx === 0 ? 'hidden' : 'visible';
+            if (idx === steps.length - 1) {
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'inline-block';
+            } else {
+                btnNext.style.display = 'inline-block';
+                btnSubmit.style.display = 'none';
+            }
+            stepTitle.textContent = 'Step ' + (idx + 1) + ' of ' + steps.length;
+            stepName.textContent = steps[idx].dataset.label;
+            window.scrollTo(0, 0);
+            current = idx;
+
+            // Update timestamp on signature step
+            if (idx === steps.length - 1) {
+                document.getElementById('SignatureTimestamp').value = new Date().toLocaleString();
+            }
+        }
+
+        btnNext.addEventListener('click', () => { if (current < steps.length - 1) showStep(current + 1); });
+        btnPrev.addEventListener('click', () => { if (current > 0) showStep(current - 1); });
+
+        // Conditional visibility - Marital status
+        const marital = document.getElementById('MaritalStatus');
+        const spouseNames = document.getElementById('spouseNameFields');
+        const formerSpouse = document.getElementById('formerSpouseFields');
+        if (marital) {
+            marital.addEventListener('change', () => {
+                const val = marital.value;
+                const showSpouse = ['Married', 'Common-law'].includes(val);
+                const showFormer = ['Divorced', 'Annulled', 'Widowed'].includes(val);
+                if (spouseNames) spouseNames.style.display = showSpouse ? '' : 'none';
+                if (formerSpouse) formerSpouse.style.display = showFormer ? '' : 'none';
+            });
+        }
+
+        const resiToggle = document.getElementById('ResiSameAsMailing');
+        const resiFields = document.getElementById('resiFields');
+        if (resiToggle && resiFields) {
+            resiToggle.addEventListener('change', () => {
+                resiFields.style.display = resiToggle.value === 'No' ? '' : 'none';
+            });
+        }
+
+        function toggleBgDetails(triggerIds, targetId) {
+            const target = document.getElementById(targetId);
+            if (!target) return;
+            triggerIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('change', () => {
+                    const anyYes = triggerIds.some(tid => {
+                        const t = document.getElementById(tid);
+                        return t && t.value === 'Yes';
+                    });
+                    target.style.display = anyYes ? '' : 'none';
+                });
+            });
+        }
+
+        toggleBgDetails(['HealthCondition', 'HealthContact'], 'medicalDetailsRow');
+        toggleBgDetails(['PrevRefused'], 'refusedDetailsRow');
+        toggleBgDetails(['PrevRemoval'], 'removalDetailsRow');
+        toggleBgDetails(['Criminal'], 'criminalDetailsRow');
+        toggleBgDetails(['Military', 'GovPosition'], 'militaryDetailsRow');
+        toggleBgDetails(['Illtreatment'], 'illtreatmentDetailsRow');
+
+        // Signature preview
+        const sigInput = document.getElementById('ClientSignatureName');
+        const sigPreview = document.getElementById('signaturePreview');
+        const sigCheckbox = document.getElementById('SignatureConfirmed');
+
+        function updateSubmitState() {
+            const nameOk = sigInput.value.trim().length >= 2;
+            const checked = sigCheckbox.checked;
+            btnSubmit.disabled = !(nameOk && checked);
+        }
+
+        sigInput.addEventListener('input', () => {
+            sigPreview.textContent = sigInput.value || '';
+            updateSubmitState();
+        });
+        sigCheckbox.addEventListener('change', updateSubmitState);
+
+        // Fetch client IP
+        fetch('https://api.ipify.org?format=json')
+            .then(r => r.json())
+            .then(data => { document.getElementById('ClientIP').value = data.ip; })
+            .catch(() => { document.getElementById('ClientIP').value = 'Could not detect'; });
+
+        // Submit handler
+        btnSubmit.addEventListener('click', async () => {
+            // Update timestamp right before submit
+            document.getElementById('SignatureTimestamp').value = new Date().toISOString();
+
+            // Collect all form data
+            const formData = {};
+            const inputs = document.querySelectorAll('#mainForm input, #mainForm select, #mainForm textarea');
+            inputs.forEach(el => {
+                if (el.type === 'checkbox') {
+                    formData[el.name] = el.checked ? 'Yes' : 'No';
+                } else {
+                    formData[el.name] = el.value || '';
+                }
+            });
+
+            // Add user agent
+            formData['ClientUserAgent'] = navigator.userAgent;
+
+            // Disable button and show loading
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Submitting...';
+
+            try {
+                if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE')) {
+                    throw new Error('Google Apps Script URL not configured. Please follow the SETUP_GUIDE.txt instructions.');
+                }
+
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                // no-cors mode always returns opaque response, so we assume success
+                document.getElementById('successOverlay').style.display = 'flex';
+            } catch (error) {
+                document.getElementById('errorMessage').textContent = error.message || 'Something went wrong. Please try again.';
+                document.getElementById('errorOverlay').style.display = 'flex';
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Submit Application';
+            }
+        });
+
+        showStep(0);
+    })();
+    </script>
+</body>
+</html>
